@@ -32,6 +32,8 @@ sequenceDiagram
 
     Note right of browser: The browser executes the callback function that renders the notes
 ```
+![newnote](https://github.com/yuqinggongyg/full-stack-open/assets/122472773/48375b29-0193-4c3f-aeee-784ce5c50b3d)
+
 ***Create a similar diagram*** depicting the situation where the user creates a new note on the [page](https://studies.cs.helsinki.fi/exampleapp/notes) by writing something into the text field and clicking the Save button.
 
 If necessary, show operations on the browser or on the server as comments on the diagram.
