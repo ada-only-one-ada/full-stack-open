@@ -33,3 +33,6 @@ sequenceDiagram
     Note right of browser: The browser executes the callback function that renders the notes
     
 ```
+
+<img width="196" alt="Screenshot 2024-02-25 at 02 24 38" src="https://github.com/yuqinggongyg/full-stack-open/assets/122472773/95727c73-305e-4a53-9b84-c631a28f0ea2">
+
