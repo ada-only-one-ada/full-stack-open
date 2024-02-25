@@ -27,3 +27,6 @@ sequenceDiagram
 
     Note right of browser: The browser executes the callback function that renders the notes
 ```
+<img width="186" alt="Screenshot 2024-02-25 at 02 25 23" src="https://github.com/yuqinggongyg/full-stack-open/assets/122472773/1cc2642d-83cc-4d0a-ae01-78ad82e21f6c">
+
+
