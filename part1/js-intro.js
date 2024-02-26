@@ -21,7 +21,6 @@ console.log("m2 is " + m2);
 
 const t3 = [1, 2, 3, 4, 5];
 const [first, second, ...rest] = t3;
-
 console.log("first is " + first, "second is " + second);
 console.log("rest is " + rest);
 
@@ -32,13 +31,11 @@ const object1 = {
     age: 35,
     education: 'PhD',
 }
-
 const object2 = {
     name: 'Full Stack web application development',
     level: 'intermediate studies',
     size: 5,
 }
-
 const object3 = {
     name: {
         first: 'Dan',
@@ -96,3 +93,40 @@ const arverage = function (a, b) {
 }
 const res = arverage(2, 5);
 console.log(res);
+
+// object methods: "this" refers to the object itself
+const arto = {
+    name: "Arto Hellas",
+    age: 35,
+    education: "PHD",
+    greet: function () {
+        console.log("Hello, my name is " + this.name);
+    },
+    doAddition: function (a, b) {
+        console.log(a + b);
+    },
+}
+arto.greet();
+
+// Methods can be assigned to objects even after the creation of the object:
+arto.growOlder = function () {
+    this.age += 1;
+}
+console.log("Before call growOlder() age is " + arto.age);
+arto.growOlder();
+console.log("After call growOlder() age is " + arto.age);
+
+arto.doAddition(1, 4);
+// storing a method reference in a variable and calling the method through the variable:
+const referenceToAddition = arto.doAddition;
+referenceToAddition(10, 15);
+
+arto.greet();
+// if we do the same with the greet() we run into an issue:
+const referenceToGreet = arto.greet;
+referenceToGreet();
+
+// when calling the method through a reference, the method loses knowledge of what the original this was
+// In JavaScript, the value of this is defined based on how the method is called.
+// When calling the method through a reference, the value of this becomes the global object 
+setTimeout(arto.greet, 1000); //Hello, my name is undefined
