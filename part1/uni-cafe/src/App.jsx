@@ -42,37 +42,21 @@ const Button = ({ handleClick, text }) => {
   )
 }
 
-const Statistics = (props) => {
-  const { good, neutral, bad } = props;
+const Statistics = ({ good, neutral, bad }) => {
   const total = good + neutral + bad;
-  const average = total > 0 ? (good * 1 + neutral * 0 + bad * (-1)) / total : 0;
-  const positive = total > 0 ? (good / total * 100) : 0;
+  const obj = {
+    total: total,
+    average: total > 0 ? (good * 1 + neutral * 0 + bad * (-1)) / total : 0,
+    positive: total > 0 ? (good / total * 100) : 0,
+  }
 
   return (
     <div>
-      <p>all {total}</p>
-      <p>average {average}</p>
-      <p>positive {positive} %</p>
+      <p>all {obj.total}</p>
+      <p>average {obj.average}</p>
+      <p>positive {obj.positive} %</p>
     </div>
   )
 }
-/*
-const Total = ({ good, neutral, bad }) => <p>all {good + neutral + bad}</p>
-const Average = ({ good, neutral, bad }) => {
-  const total = good + neutral + bad;
-  const score = good * 1 + neutral * 0 + bad * (-1);
-  const average = total > 0 ? score / total : 0;
-  return (
-    <p>average {average}</p>
-  )
-}
-const Positive = ({ good, neutral, bad }) => {
-  const total = good + neutral + bad;
-  const positive = total > 0 ? good / total : 0;
-  return (
-    <p>positive {positive * 100} %</p>
-  )
-}
-*/
 
 export default App
