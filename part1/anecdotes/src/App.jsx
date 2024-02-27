@@ -14,6 +14,8 @@ const App = () => {
 
   const [selected, setSelected] = useState(0);
   const [points, setPoints] = useState([]);
+  let [maxIndex, setMaxIndex] = useState(0);
+  let [maxValue, setMaxValue] = useState(0);
 
   const handleSelectClick = () => {
     const index = Math.floor(Math.random() * anecdotes.length);
@@ -28,16 +30,26 @@ const App = () => {
     }
     copy[selected] += 1;
     setPoints(copy);
+
+    if (copy[selected] > maxValue) {
+      setMaxIndex(selected);
+      setMaxValue(copy[selected]);
+    }
   }
 
   return (
     <div>
+      <Header text="Anecdote of the day" />
       {anecdotes[selected]}
       <br />
       <Points points={points} selected={selected} />
       <br />
       <button onClick={handleVoteClick}>vote</button>
       <button onClick={handleSelectClick}>next anecdote</button>
+
+      <Header text="Anecdote with most votes" />
+      {anecdotes[maxIndex]}
+      <Points points={points} selected={maxIndex} />
     </div>
   )
 }
@@ -53,4 +65,9 @@ const Points = ({ points, selected }) => {
   )
 }
 
+const Header = ({ text }) => {
+  return (
+    <h1>{text}</h1>
+  )
+}
 export default App
