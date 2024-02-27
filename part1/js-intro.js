@@ -9,13 +9,13 @@ item as an argument.
 
 const t = [2, 4, 6, 8];
 const t2 = t.concat(10);
-
 t.forEach(value => {
     console.log(value);
 })
 
 const m1 = t.map(value => value * 2);
-console.log("m1 is " + m1);
+console.log("m1 double is " + m1);
+
 const m2 = t.map(value => '<li>' + value + '</li>');
 console.log("m2 is " + m2);
 
@@ -46,53 +46,53 @@ const object3 = {
 }
 
 // The properties of an objects are referenced by using the "dot" notation or brackets:
-console.log(object1.name); //'Arto Hellas'
+console.log("name is " + object1.name); //'Arto Hellas'
 const fieldName = 'age';
-console.log(object1[fieldName]); //35
+console.log("age is " + object1[fieldName]); //35
 
 // add properties by using dot notation or brackets:
 object1.address = 'Helsinki';
-console.log(object1.address);
-console.log(object1['address']);
+console.log("address is " + object1.address);
+console.log("another same address is " + object1['address']);
 
 // This has to be done by using brackets because if using dot notation, 'secret number' is not
 // a valid property name because of the space character 
 object1['secret number'] = 12341;
-console.log(object1['secret number']);
+console.log("secret number is " + object1['secret number']);
 
 const sum = (p1, p2) => {
-    console.log(p1);
-    console.log(p2);
+    console.log("first number to add is " + p1);
+    console.log("second number to add is " + p2);
     return p1 + p2;
 }
 const result = sum(1, 5)
 console.log("result of sum(1,5) is " + result);
 
 const square = p => {
-    console.log(p);
+    console.log("number to be squared is " + p);
     return p * p;
 }
-console.log(square(9));
+console.log("square of 9 is " + square(9));
 
 const squareCleaner = p => p * p;
-console.log(squareCleaner(8));
+console.log("cleaner code of square of 8 is " + squareCleaner(8));
 
 const tSquared = t.map(p => p * p);// [2, 4, 6, 8] =>[4, 16, 36, 64]
-console.log(tSquared);
+console.log("square of [2,4,6,8] is " + tSquared);
 
 // define functions by using the keyword 'function'
 // 1. give a name in a function declaration
 function product(a, b) {
     return a * b;
 }
-console.log(product(2, 6));
+console.log("product of (2,6) is " + product(2, 6));
 
 // 2.define the function by using a function expression, no need to give the function a name
 const arverage = function (a, b) {
     return (a + b) / 2;
 }
 const res = arverage(2, 5);
-console.log(res);
+console.log("average of (2,5) is " + res);
 
 // object methods: "this" refers to the object itself
 const arto = {
@@ -103,7 +103,7 @@ const arto = {
         console.log("Hello, my name is " + this.name);
     },
     doAddition: function (a, b) {
-        console.log(a + b);
+        console.log(`${a} plus ${b} is ` + (a + b));
     },
 }
 arto.greet();
@@ -120,13 +120,3 @@ arto.doAddition(1, 4);
 // storing a method reference in a variable and calling the method through the variable:
 const referenceToAddition = arto.doAddition;
 referenceToAddition(10, 15);
-
-arto.greet();
-// if we do the same with the greet() we run into an issue:
-const referenceToGreet = arto.greet;
-referenceToGreet();
-
-// when calling the method through a reference, the method loses knowledge of what the original this was
-// In JavaScript, the value of this is defined based on how the method is called.
-// When calling the method through a reference, the value of this becomes the global object 
-setTimeout(arto.greet, 1000); //Hello, my name is undefined

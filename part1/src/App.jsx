@@ -22,13 +22,64 @@ and the result of this evaluation is embedded into the defined place in the HTML
 which has fields corresponding to all the "props" the user of the component defines.
 Note: First letter of React component names must be capitalized.
 */
+
+/* props is an object
+props = {
+  name: 'Arto Hellas',
+  age: 35,
+} 
+*/
+
+const HelloWithDestructuring = ({ name, age }) => {
+  const bornYear = () => new Date().getFullYear() - age;
+  return (
+    <div>
+      <p>Hello With Destructuring {name}, you are {age} years old</p>
+      <p>So you were probably born in {bornYear()}</p>
+    </div>
+  )
+}
+
+
 const Hello = (props) => {
+  // destructuring 
+  // const name = props.name;
+  // const age = props.age;
+
+  // or this:
+  const { name, age } = props;
+
+  const bornYear = () => new Date().getFullYear() - age;
+  /* above is same as below:
+  const bornYear = () => {
+    return new Date().getFullYear() - age;
+  }
+  */
+  return (
+    <div>
+      <p>Hello {name}, you are {age} years old</p>
+      <p>So you were probably born in {bornYear()}</p>
+    </div>
+  );
+
+  /*
+  const bornYear = () => {
+    const yearNow = new Date().getFullYear();
+    return yearNow - props.age;
+  }
+
   return (
     <div>
       <p>Hello {props.name}, you are {props.age} years old</p>
+      <p>So you were probably born in {bornYear()}</p>
     </div>
   );
+  */
 }
+
+/* The logic for guessing the year of birth is separated into a function of its own that is called when the component is rendered.
+The person's age does not have to bed passed as a parameter to the function, since it can directly access all props that are passed to the component.
+*/
 
 const Footer = () => {
   return (
@@ -49,14 +100,16 @@ const App = () => {
 
   const friendsArray = ["name1", "name2"];
 
-  //extra div in the DOM tree
+  //extra div in the DOM tree, can use <></> to avoid 
   return (
     <div>
       <h1>Greetings</h1>
-      <Hello name='Daisy' />
+      <Hello name='Daisy' age={1} />
       <Hello name='Maya' age={26 + 10} />
       <Hello name={name} age={age} />
       <Hello />
+      <br />
+      <HelloWithDestructuring name="ada" age="27" />
 
       <br />
       <Footer />
