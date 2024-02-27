@@ -1,5 +1,7 @@
 import { useState } from "react";
 
+const Display = props => <div> {props.value}</div>
+
 const AppComplex = () => {
     /* The component gets access to the functions setLeft and setRight that it can use to update the two pieces of state.
     {left: 0, right: 0}
@@ -9,6 +11,7 @@ const AppComplex = () => {
     // this simplifies the update logic since you don't need to spread the previous state object — 
     //   you directly update the relevant piece of state: more suitable 
     const [left, setLeft] = useState(0);
+
     const [right, setRight] = useState(0);
 
     //Every click is stored in a separate piece of state called allClicks that is initialized as an empty array:
@@ -140,6 +143,52 @@ const AppComplex = () => {
     //console.log({ copy });
     //console.log({ deepCopy });
 
+    const [value, setValue] = useState(10);
+    const setToValue = (newValue) => () => {
+        console.log("value", value);
+        console.log("new value", newValue);
+        setValue(newValue);
+    }
+    const setToValueNormal = (newValue) => {
+        console.log("value", value);
+        console.log("new value", newValue);
+        setValue(newValue);
+    }
+
+    // When click the hello button, the return value of the function is another function that is assigned to the handler
+    // i.e. it assigns the return value of hello() to the onClick attribute.
+    // i.e. <Button handleClick={hello()} text="hello button" /> gets transformed to:
+    // <Button handleClick={() => console.log("Hello World")} text="hello button">
+    const hello = () => {
+        const handler = () => console.log("Hello World");
+        return handler;
+    }
+
+    /* Both buttons get their individualized event handlers.
+       Functions returning functions can be utilized in defining generic functionality that can be customized with parameters. 
+       The hello function that creates the event handlers can be thought of as a factory that produces customized event handlers meant for greeting users.
+    */
+    const helloAdvanced = (who) => {
+        const handler = () => {
+            console.log("Hello", who);
+        }
+        return handler;
+    }
+    const helloAdvancedDirect1 = (who) => {
+        return () => {
+            console.log("Hello", who);
+        }
+    }
+
+    const helloAdvancedDirect2 = (who) =>
+        () => {
+            console.log("Hello", who);
+        }
+
+    const helloAdvancedDirect3 = (who) => () => {
+        console.log("Hello", who);
+    }
+
     return (
         <div>
             <Button handleClick={handleLeftClick} text="Left Button Component" />
@@ -157,12 +206,41 @@ const AppComplex = () => {
             <button onClick={handleLeftClickUsingSpread}>Left Spread btn Not component</button>
             <button onClick={handleRightClickUsingSpread}>Right Spread btn Not component</button>
             {clicks.left} : {clicks.right}
+            <br />
+            <br />
+
+            {value}
+            <Button handleClick={hello()} text="hello button" />
+
+            <Button handleClick={helloAdvanced("world")} text="hello advanced btn" />
+            <Button handleClick={helloAdvanced("react")} text="hello advanced btn" />
+            <Button handleClick={helloAdvanced("function")} text="hello advanced btn" />
+
+            <Button handleClick={helloAdvancedDirect1("you")} text="hello direct1" />
+            <Button handleClick={helloAdvancedDirect2("me")} text="helllo direct2" />
+            <Button handleClick={helloAdvancedDirect3("she")} text="hello direct3" />
+
+            <br />
+            <Button handleClick={setToValue(1000)} text="thousand" />
+            <Button handleClick={setToValue(0)} text="reset" />
+            <Button handleClick={setToValue(value + 1)} text="increment" />
+
+            <button onClick={() => setToValueNormal(value + 5)}>plus five</button>
+
+            <Button1 handleClick={() => setToValueNormal(9)} text="nine" />
+            <Button1 handleClick={() => setToValueNormal(90)} text="ninty" />
+            <Button1 handleClick={() => setToValueNormal(900)} text="nine hundreds" />
+
+            <Display value={value} />
         </div>
     )
 }
 
 const Button = ({ handleClick, text }) => (
     <button onClick={handleClick}>{text}</button>
+)
+const Button1 = (props) => (
+    <button onClick={props.handleClick}>{props.text}</button>
 )
 
 const History = (props) => {
