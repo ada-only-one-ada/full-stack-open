@@ -36,6 +36,7 @@ const Button = ({ handleClick, text }) => {
   )
 }
 
+//Warning: validateDOMNesting(...): <tr> cannot appear as a child of <table> 
 const StatisticLine = ({ text, value }) => {
   return (
     <tbody>
