@@ -20,7 +20,7 @@ const App = () => {
 
   return (
     <div>
-      <Header text="1.10 give feedback" />
+      <Header text="1.11 give feedback" />
       <Button handleClick={handleGoodClick} text="good" />
       <Button handleClick={handleNeutralClick} text="neutral" />
       <Button handleClick={handleBadClick} text="bad" />
@@ -38,7 +38,12 @@ const Button = ({ handleClick, text }) => {
 
 const StatisticLine = ({ text, value }) => {
   return (
-    <p>{text} {value}</p>
+    <tbody>
+      <tr>
+        <th>{text}</th>
+        <th>{value}</th>
+      </tr>
+    </tbody>
   )
 }
 
@@ -46,20 +51,20 @@ const Statistics = ({ good, neutral, bad }) => {
   const total = good + neutral + bad;
   const obj = {
     total: total,
-    average: (good * 1 + neutral * 0 + bad * (-1)) / total,
-    positive: good / total * 100 + " %",
+    average: ((good * 1 + neutral * 0 + bad * (-1)) / total).toFixed(1),
+    positive: (good / total * 100).toFixed(1) + " %",
   }
 
   if (total > 0) {
     return (
-      <div>
+      <table>
         <StatisticLine text="good" value={good} />
         <StatisticLine text="neutral" value={neutral} />
         <StatisticLine text="bad" value={bad} />
         <StatisticLine text="all" value={obj.total} />
         <StatisticLine text="average" value={obj.average} />
         <StatisticLine text="positive" value={obj.positive} />
-      </div>
+      </table>
     )
   }
   return (
