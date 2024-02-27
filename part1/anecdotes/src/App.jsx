@@ -12,19 +12,44 @@ const App = () => {
     'The only way to go fast, is to go well.'
   ]
 
-  const [selected, setSelected] = useState(0)
+  const [selected, setSelected] = useState(0);
+  const [points, setPoints] = useState([]);
 
   const handleSelectClick = () => {
     const index = Math.floor(Math.random() * anecdotes.length);
     setSelected(index);
   }
 
+  // Remember that the correct way of updating state stored in complex data structures like objects and arrays is to make a copy of the state.
+  const handleVoteClick = () => {
+    const copy = [...points];
+    if (!copy[selected]) {
+      copy[selected] = 0;
+    }
+    copy[selected] += 1;
+    setPoints(copy);
+  }
+
   return (
     <div>
       {anecdotes[selected]}
       <br />
+      <Points points={points} selected={selected} />
+      <br />
+      <button onClick={handleVoteClick}>vote</button>
       <button onClick={handleSelectClick}>next anecdote</button>
     </div>
+  )
+}
+
+const Points = ({ points, selected }) => {
+  if (points[selected] > 0) {
+    return (
+      <p>has {points[selected]} votes</p>
+    )
+  }
+  return (
+    <p>has 0 votes</p>
   )
 }
 
