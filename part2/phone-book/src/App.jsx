@@ -6,13 +6,20 @@ const App = () => {
 
   const addPerson = (event) => {
     event.preventDefault();
+    const alreadyAdded = persons.find(person => person.name === newName);
 
-    const personObject = {
-      name: newName,
-      id: newName,
+    if (alreadyAdded) {
+      alert(`${newName} is already added to phonebook`);
+    } else {
+      const personObject = {
+        name: newName,
+        id: newName,
+      }
+
+      setPersons(persons.concat(personObject));
+      setNewName('');
+
     }
-    setPersons(persons.concat(personObject));
-    setNewName('');
   }
 
   const handleNameChange = (event) => {
@@ -38,3 +45,5 @@ const App = () => {
 }
 
 export default App
+
+//https://www.joshbritz.co/posts/why-its-so-hard-to-check-object-equality/
