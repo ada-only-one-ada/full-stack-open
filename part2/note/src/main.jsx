@@ -19,20 +19,6 @@ const notes = [
     important: true
   }
 ]
-/* map always creates a new array, the elements of which have been created from the elements of the original array by mapping:
-    using the function given as a parameter to the map method.
-    The function is:
-
-        note => note.id
-
-    which is an arrow function in compact form. The full would be:
-
-        (note) => {
-          return note.id;
-        }
-
-    The function gets a note object as a parameter and returns the value of its id field.
-*/
 
 const result = notes.map(note => note.content);
 
