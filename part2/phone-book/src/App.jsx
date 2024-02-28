@@ -1,9 +1,15 @@
 import { useState } from 'react'
 
 const App = () => {
-  const [persons, setPersons] = useState([]);
+  const [persons, setPersons] = useState([
+    { name: 'Arto Hellas', number: '040-123456', id: 1 },
+    { name: 'Ada Lovelace', number: '39-44-5323523', id: 2 },
+    { name: 'Dan Abramov', number: '12-43-234345', id: 3 },
+    { name: 'Mary Poppendieck', number: '39-23-6423122', id: 4 }
+  ])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
+  const [newSearchWord, setNewSearchWord] = useState('')
 
   const addPerson = (event) => {
     event.preventDefault();
@@ -15,7 +21,7 @@ const App = () => {
       const personObject = {
         name: newName,
         number: newNumber,
-        id: newName,
+        id: persons.length + 1,
       }
 
       setPersons(persons.concat(personObject));
@@ -32,10 +38,22 @@ const App = () => {
     setNewNumber(event.target.value);
   }
 
+  const handleSearchWordChange = (event) => {
+    setNewSearchWord(event.target.value);
+  }
+
+  //const notesToShow = showAll ? notes : notes.filter(note => note.important); 
+  const filteredPersons = persons.filter(person => person.name.toLocaleLowerCase().includes(newSearchWord.toLocaleLowerCase()));
+
   return (
     <div>
       <h2>Phonebook</h2>
 
+      <form>
+        <div>filter shown with<input value={newSearchWord} onChange={handleSearchWordChange} /></div>
+      </form>
+
+      <h2>add a new</h2>
       <form onSubmit={addPerson}>
         <div>name: <input value={newName} onChange={handleNameChange} /></div>
         <div>number: <input value={newNumber} onChange={handleNumberChange} /></div>
@@ -44,7 +62,7 @@ const App = () => {
 
       <h2>Numbers</h2>
 
-      {persons.map(person =>
+      {filteredPersons.map(person =>
         <div key={person.id}> {person.name} {person.number}</div>
       )}
     </div >
