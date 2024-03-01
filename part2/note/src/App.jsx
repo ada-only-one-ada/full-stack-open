@@ -73,6 +73,10 @@ const App = () => {
       .then(returnedNote => { // was 'response'
         setNotes(notes.map(n => n.id !== id ? n : returnedNote)); // was 'n : response.data'
       })
+      .catch(error => {
+        alert(`The note ${note.content} was already deleted from the server`);
+      })
+    setNotes(notes.filter(n => n.id !== id));
   }
 
   const handleNoteChange = (event) => {
