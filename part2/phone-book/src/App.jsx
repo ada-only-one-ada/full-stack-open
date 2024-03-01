@@ -7,6 +7,7 @@ const App = () => {
   const [newName, setNewName] = useState('');
   const [newNumber, setNewNumber] = useState('');
   const [newSearchWord, setNewSearchWord] = useState('');
+  const [message, setMessage] = useState(null);
 
   useEffect(() => {
     personService
@@ -31,6 +32,10 @@ const App = () => {
             setPersons(persons.map(person => person.id !== id ? person : returnedPerson));
             setNewName('');
             setNewNumber('');
+            setMessage(`Changed ${newName}'s number to ${newNumber}`);
+            setTimeout(() => {
+              setMessage(null)
+            }, 5000);
           })
       }
     } else {
@@ -45,6 +50,10 @@ const App = () => {
           setPersons(persons.concat(returnedPerson));
           setNewName('');
           setNewNumber('');
+          setMessage(`Added ${personObject.name}`);
+          setTimeout(() => {
+            setMessage(null)
+          }, 5000);
         })
     }
   }
@@ -81,6 +90,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={message} />
       <Filter label="filter shown with" newSearchWord={newSearchWord} handleSearchWordChange={handleSearchWordChange} />
 
       <h2>add a new</h2>
@@ -116,6 +126,17 @@ const Persons = ({ filteredPersons, toggleDeleteOf }) => {
     <>
       {filteredPersons.map(person => <Person key={person.id} person={person} toggleDelete={() => toggleDeleteOf(person.id)} />)}
     </>
+  )
+}
+
+const Notification = ({ message }) => {
+  if (message === null) {
+    return null;
+  }
+  return (
+    <div className="sucess">
+      {message}
+    </div>
   )
 }
 
