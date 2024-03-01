@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import Note from './components/Note'
+import noteService from './services/notes'; // The App component uses import to get access to the module.
 
 const App = () => {
   const [notes, setNotes] = useState([]);
@@ -8,12 +9,10 @@ const App = () => {
   const [showAll, setShowAll] = useState(true);
 
   useEffect(() => {
-    console.log('effect');
-    axios
-      .get('http://localhost:3001/notes')
-      .then(response => {
-        console.log('promise fulfilled');
-        setNotes(response.data);
+    noteService
+      .getAll()
+      .then(initialNotes => { //was 'response'
+        setNotes(initialNotes); // was 'response.data'
       })
   }, []);
 
@@ -28,6 +27,7 @@ const App = () => {
     }
     // The object is sent to the server using the axios post method.
     // The registered event handler logs the response that is sent back from the server to the console.
+    /*
     axios
       .post('http://localhost:3001/notes', noteObject)
       .then(response => {
@@ -35,8 +35,17 @@ const App = () => {
         setNewNote("");
         console.log(response)
       })
+    */
+
+    noteService
+      .create(noteObject)
+      .then(returnedNote => { // was 'response'
+        setNotes(notes.concat(returnedNote)); // was 'response.data'
+        setNewNote("");
+      })
   }
 
+  /*
   const toggleImportanceOf = (id) => {
     const url = `http://localhost:3001/notes/${id}`; // This defines the unique URL for each note resource based on its id.
     const note = notes.find(n => n.id === id); // The array find method is used to find the note we want to modify, and we then assign it to the note variable.
@@ -51,6 +60,18 @@ const App = () => {
         // If the id is not the changed one, we simply copy the item from the old array into the new array.
         // If the id is the changed one, the note object returned by the server is addred to the array 
         setNotes(notes.map(n => n.id !== id ? n : response.data));
+      })
+  }
+  */
+
+  const toggleImportanceOf = id => {
+    const note = notes.find(n => n.id === id);
+    const changedNote = { ...note, important: !note.important };
+
+    noteService
+      .update(id, changedNote)
+      .then(returnedNote => { // was 'response'
+        setNotes(notes.map(n => n.id !== id ? n : returnedNote)); // was 'n : response.data'
       })
   }
 
