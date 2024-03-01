@@ -1,9 +1,9 @@
 const Person = ({ person, toggleDelete }) => {
     return (
         <div>
-            {person.name}
-            {person.number}
-            <button onClick={toggleDelete}>delete</button>
+            <span>{person.name} </span>
+            <span>{person.number} </span>
+            <span><button onClick={toggleDelete}>delete</button></span>
         </div>
     )
 }
