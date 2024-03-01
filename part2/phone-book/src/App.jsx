@@ -7,7 +7,9 @@ const App = () => {
   const [newName, setNewName] = useState('');
   const [newNumber, setNewNumber] = useState('');
   const [newSearchWord, setNewSearchWord] = useState('');
-  const [message, setMessage] = useState(null);
+  const [successMessage, setSuccessMessage] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
+
 
   useEffect(() => {
     personService
@@ -32,10 +34,16 @@ const App = () => {
             setPersons(persons.map(person => person.id !== id ? person : returnedPerson));
             setNewName('');
             setNewNumber('');
-            setMessage(`Changed ${newName}'s number to ${newNumber}`);
+            setSuccessMessage(`Changed ${newName}'s number to ${newNumber}`);
             setTimeout(() => {
-              setMessage(null)
+              setSuccessMessage(null)
             }, 5000);
+          }).catch(error => {
+            setErrorMessage(`Information of ${newName} has alreaedy been removed from server`);
+            setTimeout(() => {
+              setErrorMessage(null)
+            }, 5000);
+            setPersons(persons.filter(person => person.id !== id));
           })
       }
     } else {
@@ -50,9 +58,9 @@ const App = () => {
           setPersons(persons.concat(returnedPerson));
           setNewName('');
           setNewNumber('');
-          setMessage(`Added ${personObject.name}`);
+          setSuccessMessage(`Added ${personObject.name}`);
           setTimeout(() => {
-            setMessage(null)
+            setSuccessMessage(null)
           }, 5000);
         })
     }
@@ -60,6 +68,9 @@ const App = () => {
 
   const toggleDeleteOf = id => {
     const person = persons.find(person => person.id === id);
+    if (!person) {
+
+    }
 
     if (window.confirm(`Delete ${person.name} ?`)) {
       personService
@@ -90,7 +101,9 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Notification message={message} />
+      <SucessNotification successMessage={successMessage} />
+      <ErrorNotification errorMessage={errorMessage} />
+
       <Filter label="filter shown with" newSearchWord={newSearchWord} handleSearchWordChange={handleSearchWordChange} />
 
       <h2>add a new</h2>
@@ -129,13 +142,24 @@ const Persons = ({ filteredPersons, toggleDeleteOf }) => {
   )
 }
 
-const Notification = ({ message }) => {
-  if (message === null) {
+const SucessNotification = ({ successMessage }) => {
+  if (successMessage === null) {
     return null;
   }
   return (
     <div className="sucess">
-      {message}
+      {successMessage}
+    </div>
+  )
+}
+
+const ErrorNotification = ({ errorMessage }) => {
+  if (errorMessage === null) {
+    return null;
+  }
+  return (
+    <div className="error">
+      {errorMessage}
     </div>
   )
 }
