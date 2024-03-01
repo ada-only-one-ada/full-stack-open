@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import personService from './services/persons';
+import Person from './components/Person';
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -25,15 +26,29 @@ const App = () => {
       const personObject = {
         name: newName,
         number: newNumber,
-        id: persons.length + 1,
       }
 
       personService
         .create(personObject)
         .then(returnedPerson => {
-          setPersons(persons.concat(personObject));
+          setPersons(persons.concat(returnedPerson));
           setNewName('');
           setNewNumber('');
+        })
+    }
+  }
+
+  const toggleDeleteOf = id => {
+    const person = persons.find(person => person.id === id);
+
+    if (window.confirm(`Delete ${person.name} ?`)) {
+      personService
+        .remove(id)
+        .then(() => {
+          setPersons(persons.filter(person => person.id !== id));
+        })
+        .catch(error => {
+          alert(`this person has already been delete`);
         })
     }
   }
@@ -50,7 +65,6 @@ const App = () => {
     setNewSearchWord(event.target.value);
   }
 
-  //const notesToShow = showAll ? notes : notes.filter(note => note.important); 
   const filteredPersons = persons.filter(person => person.name.toLocaleLowerCase().includes(newSearchWord.toLocaleLowerCase()));
 
   return (
@@ -62,7 +76,7 @@ const App = () => {
       <PersonForm newName={newName} newNumber={newNumber} addPerson={addPerson} handleNameChange={handleNameChange} handleNumberChange={handleNumberChange} />
 
       <h2>Numbers</h2>
-      <Persons filteredPersons={filteredPersons} />
+      <Persons filteredPersons={filteredPersons} toggleDeleteOf={toggleDeleteOf} />
     </div >
   )
 }
@@ -85,17 +99,11 @@ const PersonForm = ({ newName, newNumber, addPerson, handleNameChange, handleNum
   )
 }
 
-const Person = ({ person }) => {
-  return (
-    <div>{person.name} {person.number}</div>
-  )
-}
-
 //const Persons = ({ filteredPersons }) => filteredPersons.map(person => <Person key={person.id} person={person} />);
-const Persons = ({ filteredPersons }) => {
+const Persons = ({ filteredPersons, toggleDeleteOf }) => {
   return (
     <>
-      {filteredPersons.map(person => <Person key={person.id} person={person} />)}
+      {filteredPersons.map(person => <Person key={person.id} person={person} toggleDelete={() => toggleDeleteOf(person.id)} />)}
     </>
   )
 }
