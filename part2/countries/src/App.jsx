@@ -46,7 +46,7 @@ const App = () => {
   return (
     <div>
       <Filter value={value} handleChange={handleChange} />
-      <CountryList filteredCountries={filteredCountries} />
+      <CountryList filteredCountries={filteredCountries} setValue={setValue} />
       <CountryInfo infos={infos} />
     </div>
   );
@@ -60,7 +60,7 @@ const Filter = ({ value, handleChange }) => {
   )
 }
 
-const CountryList = ({ filteredCountries }) => {
+const CountryList = ({ filteredCountries, setValue }) => {
   if (filteredCountries.length > 10) {
     return (
       <p>Too many matches, specify another filter</p>
@@ -68,9 +68,13 @@ const CountryList = ({ filteredCountries }) => {
   }
 
   return (
-    <ul>{filteredCountries.map(country =>
-      (<li key={country.name.common}>{country.name.common}</li>))}
-    </ul>
+    <div>{filteredCountries.map(country =>
+      <div key={country.name.common}>
+        {country.name.common}
+
+        <button onClick={() => setValue(country.name.common)}>show</button>
+      </div>)}
+    </div>
   )
 }
 
