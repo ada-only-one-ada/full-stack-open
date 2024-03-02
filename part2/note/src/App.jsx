@@ -3,10 +3,10 @@ import Note from './components/Note'
 import noteService from './services/notes'; // The App component uses import to get access to the module.
 
 const App = () => {
-  const [notes, setNotes] = useState([]);
+  const [notes, setNotes] = useState(null);
   const [newNote, setNewNote] = useState("");
   const [showAll, setShowAll] = useState(true);
-  const [errorMessage, setErrorMessage] = useState("Some error happend...");
+  const [errorMessage, setErrorMessage] = useState(null);
 
   useEffect(() => {
     noteService
@@ -86,6 +86,12 @@ const App = () => {
   const handleNoteChange = (event) => {
     console.log(event.target.value);
     setNewNote(event.target.value);
+  }
+
+  // use conditional rendering and return null if the component state is not properly initialized:
+  // do not render anything if notes is still null
+  if (!notes) {
+    return null;
   }
 
   return (
