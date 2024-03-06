@@ -4,6 +4,12 @@ const app = express(); // a function that is used to creare an express applicati
 //To access the data easily, we need the help of the express json-parser that we can use with the command app.use(express.json()).
 app.use(express.json());
 
+// Cross-orgin Resource Sharing 
+const cors = require('cors');
+app.use(cors());
+
+app.use(express.static('dist'));
+
 let notes = [
     {
         id: 1,
@@ -102,7 +108,7 @@ app.post('/api/notes', (request, response) => {
     response.json(note);
 });
 
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});
+    console.log(`Server running on port ${PORT}`)
+})
