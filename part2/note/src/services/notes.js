@@ -1,5 +1,6 @@
 import axios from 'axios';
-const baseUrl = '/api/notes';
+//const baseUrl = '/api/notes';
+const baseUrl = "https://full-stack-note-app.fly.dev/api/notes"
 
 /* 
 instead of the entire HTTP response, we would only get the response data. 
