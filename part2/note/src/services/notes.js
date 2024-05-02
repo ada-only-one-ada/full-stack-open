@@ -1,5 +1,6 @@
 import axios from 'axios';
-const baseUrl = '/api/notes';
+//const baseUrl = '/api/notes';
+const baseUrl = 'http://localhost:3001/api/notes';
 
 /* 
 instead of the entire HTTP response, we would only get the response data. 

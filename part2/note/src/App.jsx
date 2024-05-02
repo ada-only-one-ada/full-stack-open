@@ -133,10 +133,9 @@ const Notification = ({ message }) => {
 
 const Footer = () => {
   const footerStyle = {
-    color: 'yellow',
+    color: 'green',
     fontStyle: 'italic',
-    fontSize: 16,
-    backgroundColor: 'blue'
+    fontSize: 16
   }
   return (
     <div style={footerStyle}>
